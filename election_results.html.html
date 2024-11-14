@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namibian Election Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .results-section {
+            margin: 20px 0;
+        }
+        .candidate {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .votes {
+            font-size: 1.5em;
+            color: #333;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 5px;
+            width: 0;
+        }
+        @media (max-width: 600px) {
+            .candidate {
+                font-size: 1.5em;
+            }
+            .votes {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Namibian Election Results</h1>
+    
+    <!-- Presidential Election Results Section -->
+    <div class="results-section" id="presidential">
+        <h2>Presidential Election</h2>
+        <div class="candidate" id="president-leader">Loading...</div>
+        <div class="votes" id="president-votes">Votes: 0</div>
+        <div class="progress-bar">
+            <div class="progress" id="president-progress"></div>
+        </div>
+    </div>
+    
+    <!-- National Assembly Election Results Section -->
+    <div class="results-section" id="national-assembly">
+        <h2>National Assembly Election</h2>
+        <div class="candidate" id="assembly-leader">Loading...</div>
+        <div class="votes" id="assembly-votes">Votes: 0</div>
+        <div class="progress-bar">
+            <div class="progress" id="assembly-progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // Example of real-time data fetching using AJAX
+        function fetchElectionResults() {
+            fetch('https://api.example.com/election-results') // Replace with real API endpoint
+                .then(response => response.json())
+                .then(data => {
+                    // Update presidential results
+                    document.getElementById('president-leader').textContent = data.presidential.leader;
+                    document.getElementById('president-votes').textContent = 'Votes: ' + data.presidential.votes;
+                    document.getElementById('president-progress').style.width = data.presidential.percentage + '%';
+
+                    // Update national assembly results
+                    document.getElementById('assembly-leader').textContent = data.assembly.leader;
+                    document.getElementById('assembly-votes').textContent = 'Votes: ' + data.assembly.votes;
+                    document.getElementById('assembly-progress').style.width = data.assembly.percentage + '%';
+                })
+                .catch(error => console.error('Error fetching election results:', error));
+        }
+
+        // Fetch results every 10 seconds
+        setInterval(fetchElectionResults, 10000);
+
+        // Fetch results on initial page load
+        fetchElectionResults();
+    </script>
+</body>
+</html>
